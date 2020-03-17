@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weiruijie.mapper.CardMapper">
+  <resultMap id="BaseResultMap" type="com.weiruijie.pojo.Card">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="birthday" jdbcType="DATE" property="birthday" />
+    <result column="cardnumber" jdbcType="VARCHAR" property="cardnumber" />
+    <result column="sheng" jdbcType="INTEGER" property="sheng" />
+    <result column="shi" jdbcType="INTEGER" property="shi" />
+    <result column="xian" jdbcType="INTEGER" property="xian" />
+    <result column="zhuzhi" jdbcType="VARCHAR" property="zhuzhi" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, sex, type, birthday, cardnumber, sheng, shi, xian, zhuzhi
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from card
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="getlist" resultMap="BaseResultMap">
+  	select * from card
+  	<where>
+  		<if test="name!=null and name!=''">
+  			and name like "%${name}%"
+  		</if>
+  		
+  		<if test="cardnumber!=null and cardnumber!=''">
+  			and name like "%${cardnumber}%"
+  		</if>
+  	</where>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from card
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  
+  
+  
+  <delete id="del">
+  	delete from card where id in
+  	<foreach collection="array" item="i" open="(" separator="," close=")" >
+  		#{i}
+  	</foreach>
+  </delete>
+  <insert id="insert" parameterType="com.weiruijie.pojo.Card">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into card (name, sex, type, 
+      birthday, cardnumber, sheng, 
+      shi, xian, zhuzhi)
+    values (#{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{birthday,jdbcType=DATE}, #{cardnumber,jdbcType=VARCHAR}, #{sheng,jdbcType=INTEGER}, 
+      #{shi,jdbcType=INTEGER}, #{xian,jdbcType=INTEGER}, #{zhuzhi,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.weiruijie.pojo.Card">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into card
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        name,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="cardnumber != null">
+        cardnumber,
+      </if>
+      <if test="sheng != null">
+        sheng,
+      </if>
+      <if test="shi != null">
+        shi,
+      </if>
+      <if test="xian != null">
+        xian,
+      </if>
+      <if test="zhuzhi != null">
+        zhuzhi,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=DATE},
+      </if>
+      <if test="cardnumber != null">
+        #{cardnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="sheng != null">
+        #{sheng,jdbcType=INTEGER},
+      </if>
+      <if test="shi != null">
+        #{shi,jdbcType=INTEGER},
+      </if>
+      <if test="xian != null">
+        #{xian,jdbcType=INTEGER},
+      </if>
+      <if test="zhuzhi != null">
+        #{zhuzhi,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.weiruijie.pojo.Card">
+    update card
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=DATE},
+      </if>
+      <if test="cardnumber != null">
+        cardnumber = #{cardnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="sheng != null">
+        sheng = #{sheng,jdbcType=INTEGER},
+      </if>
+      <if test="shi != null">
+        shi = #{shi,jdbcType=INTEGER},
+      </if>
+      <if test="xian != null">
+        xian = #{xian,jdbcType=INTEGER},
+      </if>
+      <if test="zhuzhi != null">
+        zhuzhi = #{zhuzhi,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.weiruijie.pojo.Card">
+    update card
+    set name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      birthday = #{birthday,jdbcType=DATE},
+      cardnumber = #{cardnumber,jdbcType=VARCHAR},
+      sheng = #{sheng,jdbcType=INTEGER},
+      shi = #{shi,jdbcType=INTEGER},
+      xian = #{xian,jdbcType=INTEGER},
+      zhuzhi = #{zhuzhi,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
